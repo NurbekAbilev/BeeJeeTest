@@ -3,7 +3,8 @@
     "type": "project",
     "require": {
         "doctrine/orm": "^2.7",
-        "nikic/fast-route": "^1.3"
+        "nikic/fast-route": "^1.3",
+        "twig/twig": "3.0"
     },
     "authors": [
         {
