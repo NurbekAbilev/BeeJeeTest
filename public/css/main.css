@@ -1,0 +1,26 @@
+html {
+    background-color:#ffffff;
+}
+
+body {
+    /* background-color: #25252a; */
+    background-color: #dee1e6;
+    display:block;
+    width:50%;
+    margin: 0 auto;
+    height:100%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Параметры тени */
+    padding: 10px;
+}
+
+.yellow {
+    background-color: #ffc415;
+}
+
+.add-task-form {
+    margin-top:10px;
+}
+
+.tasks {
+    padding-bottom: 20px;
+}
