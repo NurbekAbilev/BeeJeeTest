@@ -4,6 +4,7 @@ namespace App;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Dotenv;
+use PDO;
 
 class App
 {
@@ -22,14 +23,14 @@ class App
     private function invokeController($params)
     {
         $this->config = $this->loadConfig();
-        $this->entityManager = $this->createEntityManager();
+        $em = $this->entityManager = $this->createEntityManager();
         
    
         $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader('../app/views'));
 
         $className = $params[0];
         $methodName = $params[1];
-        $controller = new $className($twig);
+        $controller = new $className($twig,$em);
         $controller->{$methodName}();
     }
 
@@ -62,38 +63,35 @@ class App
         }
     }
 
-    private function createEntityManager(){
+    private function createEntityManager()
+    {
+        $driver = getenv('DB_DRIVER');
+        $host = getenv('DB_HOST');
+        $dbName = getenv('DB_NAME');
+        $user = getenv('DB_USER');
+        $password = getenv('DB_PASSWORD');
 
-        $dbh = new PDO('mysql:host=localhost;dbname=test', $user, $pass);
+        $isDevMode = true;
+        $proxyDir = null;
+        $cache = null;
+        $useSimpleAnnotationReader = false;
+        $config = Setup::createAnnotationMetadataConfiguration([base_path('/app/models')], $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
 
-        // $isDevMode = true;
-        // $proxyDir = null;
-        // $cache = null;
-        // $useSimpleAnnotationReader = false;
-        // $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src"), $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
-        // // database configuration parameters
-        // $dbParams = [
-        //     'driver'   => 'pdo_mysql',
-        //     'user'     => 'root',
-        //     'password' => '',
-        //     'dbname'   => 'foo',
-        // ];
-        // $connectionParams = array(
-        //     'dbname' => 'mydb',
-        //     'user' => 'user',
-        //     'password' => 'secret',
-        //     'host' => 'localhost',
-        //     'driver' => 'pdo_mysql',
-        // );
-        // $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+        $connectionParams = array(
+            'dbname' => $dbName,
+            'user' => $user,
+            'password' => $password,
+            'host' => $host,
+            'driver' => $driver,
+        );
+        $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
         
-
-        return EntityManager::create($dbParams, $config);
+        return EntityManager::create($conn,$config);
     }
 
     private function loadConfig()
     {
-        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'\\..\\');
+        $dotenv = Dotenv\Dotenv::createImmutable(base_path());
         $dotenv->load();
     }
 }
