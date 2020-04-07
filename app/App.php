@@ -1,20 +1,26 @@
 <?php
 
 namespace App;
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
 
 class App
 {
-    public $router;
+    /** Entity manager Doctrine ORM */
+    public $entityManager;
 
+    public $router;
+    
     public function __construct($router)
     {
         $this->router = $router;
     }
 
-    public function invokeController($params)
+    private function invokeController($params)
     {
         $loader = new \Twig\Loader\FilesystemLoader('../app/views');
         $twig = new \Twig\Environment($loader);
+        $this->entityManager = $this->createEntityManager();
         
 
         $className = $params[0];
@@ -50,5 +56,31 @@ class App
                 $this->invokeController($handler);
                 break;
         }
+    }
+
+    private function createEntityManager(){
+        $isDevMode = true;
+        $proxyDir = null;
+        $cache = null;
+        $useSimpleAnnotationReader = false;
+        $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src"), $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
+        // database configuration parameters
+        $dbParams = [
+            'driver'   => 'pdo_mysql',
+            'user'     => 'root',
+            'password' => '',
+            'dbname'   => 'foo',
+        ];
+        $connectionParams = array(
+            'dbname' => 'mydb',
+            'user' => 'user',
+            'password' => 'secret',
+            'host' => 'localhost',
+            'driver' => 'pdo_mysql',
+        );
+        $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+        
+
+        return EntityManager::create($dbParams, $config);
     }
 }
