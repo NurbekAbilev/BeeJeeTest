@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>BeeJEE</title>
@@ -40,36 +40,51 @@
                 <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
             </div>
             <button type="submit" class="btn btn-secondary mb-2 ">Создать задачу</button>
-          </form>
+        </form>
           <hr>
           <p>Соритровка по:<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></p>
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">Имени пользователя</button>
-            <button type="button" class="btn btn-secondary ">Email</button>
-            </button>
-          </div>
-          <hr>
-          <div class="row container-fluid tasks">
-            {% for task in tasks %}
-            <div class="card col-4" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Имя пользователя: {{task.name}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+          <form action="">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <div class="row container">
+                    <div class="form-check col">
+                        <input class="form-check-input" type="checkbox" name="sort[name]" value="true" id="defaultCheck1" {{ord_name ? "checked": " "}}>
+                        <label class="form-check-label" for="defaultCheck1">
+                            Имени пользователя
+                        </label>
+                    </div>
+                    <div class="form-check col">
+                        <input class="form-check-input" type="checkbox" name="sort[email]" value="true" id="defaultCheck2" {{ord_email ? "checked": " "}}>
+                        <label class="form-check-label" for="defaultCheck2">
+                            Email
+                        </label>
+                    </div>
+                    <div class="form-check col">
+                        <button type="submit" class="btn btn-secondary mb-2 ">Обновить</button>
+                    </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-        <hr>
-        <div class="btn-group mr-2" role="group" aria-label="First group">
-            <button type="button" class="btn btn-secondary">1</button>
-            <button type="button" class="btn btn-secondary">2</button>
-            <button type="button" class="btn btn-secondary">3</button>
-            <button type="button" class="btn btn-secondary">4</button>
-          </div>
-      </div>
+            <hr>
+            <div class="row container-fluid tasks">
+                {% for task in tasks %}
+                <div class="card col-4" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Пользователь: {{task.name}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{task.email}}</h6>
+                        <p class="card-text">{{task.description}}</p>
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <hr>
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                {% for i in range(1,numPages) %}
+                    <button type="button" class="btn btn-secondary">{{ i }}</button>
+                {% endfor %} 
+            </div>
+            </div>
+        </form>
       
   </body>
 </html> 

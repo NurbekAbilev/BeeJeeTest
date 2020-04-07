@@ -24,8 +24,7 @@ class App
     {
         $this->config = $this->loadConfig();
         $em = $this->entityManager = $this->createEntityManager();
-        
-   
+
         $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader('../app/views'));
 
         $className = $params[0];
@@ -83,6 +82,7 @@ class App
             'password' => $password,
             'host' => $host,
             'driver' => $driver,
+            'charset' =>  'UTF8',
         );
         $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
         

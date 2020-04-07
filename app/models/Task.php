@@ -11,12 +11,11 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Task
 {
-
     /**
      * @ORM\Column(name="id",type="integer")
      * @ORM\Id
      */
-    protected $id;
+    public $id;
     
     /**
      * @ORM\Column(type="string")
@@ -25,22 +24,21 @@ class Task
     /**
      * @ORM\Column(type="string")
      */
-    protected $email;
+    public $email;
     /**
      * @ORM\Column(type="string")
      */
-    protected $description;
+    public $description;
     /**
      * @ORM\Column(type="string")
      */
-    protected $done;
+    public $done;
     /**
      * @ORM\Column(type="string")
      */
-    protected $edited;
+    public $edited;
     /**
      * @ORM\Column(type="string")
      */
-
-     
+    
 }
