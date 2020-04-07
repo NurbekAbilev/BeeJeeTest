@@ -4,7 +4,6 @@ namespace App;
 
 class App
 {
-    /** @var Router */
     public $router;
 
     public function __construct($router)
@@ -12,12 +11,16 @@ class App
         $this->router = $router;
     }
 
-    public function invokeController($handler)
+    public function invokeController($params)
     {
-        $className = $handler[0];
-        $methodName = $handler[1];
-        $controller = new $className;
-        $controller->{$handler[1]}();
+        $loader = new \Twig\Loader\FilesystemLoader('../app/views');
+        $twig = new \Twig\Environment($loader);
+        
+
+        $className = $params[0];
+        $methodName = $params[1];
+        $controller = new $className($twig);
+        $controller->{$methodName}();
     }
 
     public function handleRequest(){
@@ -44,9 +47,7 @@ class App
             case \FastRoute\Dispatcher::FOUND:
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
-                // var_dump([$handler,$vars]);
                 $this->invokeController($handler);
-                // ... call $handler with $vars
                 break;
         }
     }

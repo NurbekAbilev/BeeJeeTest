@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-class IndexController {
-
-
+class IndexController extends Controller
+{
     public function index()
     {
-        echo "index controller invoked!!!";
+        $template = $this->twig->load('index.html');
+        $template->display();
     }
-
 }
