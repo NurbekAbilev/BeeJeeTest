@@ -26,6 +26,7 @@ class App
         $em = $this->entityManager = $this->createEntityManager();
 
         $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader('../app/views'));
+        session_start();
 
         $className = $params[0];
         $methodName = $params[1];

@@ -13,7 +13,7 @@ class IndexController extends Controller
     {
         $data = [];
 
-        $page = empty($_GET['page']) ? 0 : $_GET['page'];
+        $page = empty($_GET['page']) ? 1 : $_GET['page'];
 
         $qb = $this->prepareQuery();
         $query = $this->em->createQuery($qb)
@@ -22,10 +22,12 @@ class IndexController extends Controller
 
         $paginator = new Paginator($query);
 
+        $data['logged_in'] = isset($_SESSION['logged_in']) ? 1 : 0;
         $data['numPages'] = ceil(count($paginator) / self::TASKS_PER_PAGE);
         $data['tasks'] = $paginator;
-        $data['ord_name'] = !empty($_GET['sort']['name']);
-        $data['ord_email'] = !empty($_GET['sort']['email']);
+        $data['ord_name'] = $_GET['name'] ?? '';
+        $data['ord_email'] = $_GET['email'] ?? '';
+        $data['ord_done'] = $_GET['done'] ?? '';
 
         $this->twig->load('index.html')->display($data);
     }
@@ -36,11 +38,14 @@ class IndexController extends Controller
         $qb = $qb->select('t')
             ->from('\App\Models\Task','t');
 
-        if(!empty($_GET['sort']['name'])){
-            $qb->addOrderBy('t.name','ASC');
+        if(!empty($_GET['name'])){
+            $qb->addOrderBy('t.name',$_GET['name']);
         }
-        if(!empty($_GET['sort']['email'])){
-            $qb->addOrderBy('t.email','ASC');
+        if(!empty($_GET['email'])){
+            $qb->addOrderBy('t.email',$_GET['email']);
+        }
+        if(!empty($_GET['done'])){
+            $qb->addOrderBy('t.done',$_GET['done']);
         }
 
         return $qb;
