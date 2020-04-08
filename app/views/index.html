@@ -19,28 +19,84 @@
 </head>
 <body>
     <div class="container">
-        <form class="add-task-form">
-            <!-- <button type="submit" class="btn btn-secondary mb-2 " name="created" value="true"></button> -->
-            <a href="/login" class="btn btn-primary">Логин</a>
+        <div class="header">
+            {% if logged_in %}
+                <form action="/logout" style="display:inline;" method="POST"><button type="submit" class="btn btn-primary">Выйти</button></form>
+            {% else %}
+                <a href="/login" class="btn btn-primary">Войти</a>
+            {% endif %}
             <a href="/create" class="btn btn-primary">Создать задачу</a>
-            <!-- <button type="submit" class="btn btn-secondary mb-2 " name="created" value="true"><a href="/create"></a></button> -->
-          <hr>
-          <p>Соритровка по:<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></p>
-          
+        </div>
+        <hr>
+        <p>Соритровка по:<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></p>
+        <form class="add-task-form">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <div class="row container">
-                    <div class="form-check col">
-                        <input class="form-check-input" type="checkbox" name="sort[name]" value="true" id="defaultCheck1" {{ord_name ? "checked": " "}}>
-                        <label class="form-check-label" for="defaultCheck1">
-                            Имени пользователя
-                        </label>
+                    <div class="col">
+                        <p>Имени:</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="name" value="" id="name" value="option1" {% if ord_name == '' %} checked {% endif %}>
+                            <label class="form-check-label" for="name">
+                              Не сортировать
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="name" value="asc" id="name1" value="option2" {% if ord_name == 'asc' %} checked {% endif %}>
+                            <label class="form-check-label" for="name1">
+                                По возврастанию
+                            </label>
+                        </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="name" value="desc" id="name2" value="option3" {% if ord_name == 'desc' %} checked {% endif %}>
+                            <label class="form-check-label" for="name2">
+                                По убыванию
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-check col">
-                        <input class="form-check-input" type="checkbox" name="sort[email]" value="true" id="defaultCheck2" {{ord_email ? "checked": " "}}>
-                        <label class="form-check-label" for="defaultCheck2">
-                            Email
-                        </label>
+                    <div class="col">
+                        <p>Email:</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="email" value="" id="email" value="option1" {% if ord_email == '' %} checked {% endif %}>
+                            <label class="form-check-label" for="email">
+                              Не сортировать
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="email" value="asc" id="email1" value="option2"{% if ord_email == 'asc' %} checked {% endif %} >
+                            <label class="form-check-label" for="email1">
+                                По возврастанию
+                            </label>
+                        </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="email" value="desc" id="email2" value="option3" {% if ord_email == 'desc' %} checked {% endif %}>
+                            <label class="form-check-label" for="email2">
+                                По убыванию
+                            </label>
+                        </div>
                     </div>
+                    <div class="col">
+                        <p>Статусу:</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="done" value="" id="done" value="option1" {% if ord_done == '' %} checked {% endif %}>
+                            <label class="form-check-label" for="done">
+                              Не сортировать
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="done" value="asc" id="done1" value="option2" {% if ord_done == 'asc' %} checked {% endif %}>
+                            <label class="form-check-label" for="done1">
+                                По возврастанию
+                            </label>
+                        </div>
+                          <div class="form-check disabled">
+                            <input class="form-check-input" type="radio" name="done" value="desc" id="done2" value="option3" {% if ord_done == 'desc' %} checked {% endif %}>
+                            <label class="form-check-label" for="done2">
+                                По убыванию
+                            </label>
+                        </div>
+                    </div>
+                    
+                      
                     <div class="form-check col">
                         <button type="submit" class="btn btn-secondary mb-2 ">Обновить</button>
                     </div>
@@ -54,7 +110,20 @@
                         <h5 class="card-title">Пользователь: {{task.name}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{task.email}}</h6>
                         <p class="card-text">{{task.description}}</p>
-                        <a href="#" class="card-link">Редактировать</a>
+                        {% if task.done == 'Y' %}
+                            <div class="alert alert-success" role="alert">
+                                Выполнено
+                            </div>
+                        {% endif %}
+                        {% if task.edited == 'Y' %}
+                            <div class="alert alert-info" role="alert">
+                                Отредактировано администратором
+                            </div>
+                        {% endif %}
+                        {% if logged_in %}
+                            <a href="/edit?id={{task.id}}" class="card-link">Редактировать</a>
+                            <a href="/delete?id={{task.id}}" class="card-link">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
                 {% else %}
