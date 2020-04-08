@@ -26,7 +26,7 @@ class App
         $this->config = $this->loadConfig();
         $em = $this->entityManager = $this->createEntityManager();
 
-        $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader('../app/views'));
+        $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader('../App/Views'));
         session_start();
 
         $className = $params[0];
@@ -76,7 +76,7 @@ class App
         $proxyDir = null;
         $cache = null;
         $useSimpleAnnotationReader = false;
-        $config = Setup::createAnnotationMetadataConfiguration([base_path('/app/models')], $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
+        $config = Setup::createAnnotationMetadataConfiguration([base_path('/App/Models')], $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
 
         $connectionParams = array(
             'dbname' => $dbName,
