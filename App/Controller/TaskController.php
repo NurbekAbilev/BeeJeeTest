@@ -9,9 +9,6 @@ class TaskController extends Controller
 
     private const TASKS_PER_PAGE = 3;
 
-    /**
-     * Показ формы добавления задачи
-     */
     public function show()
     {
         $data = [];
