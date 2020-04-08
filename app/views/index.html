@@ -18,32 +18,15 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/login">Логин</a>
-          </div>
-        </div>
-      </nav>
-      <div class="container">
+    <div class="container">
         <form class="add-task-form">
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Имя пользователя:</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Email:</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Текст задачи:</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="">
-            </div>
-            <button type="submit" class="btn btn-secondary mb-2 ">Создать задачу</button>
-        </form>
+            <!-- <button type="submit" class="btn btn-secondary mb-2 " name="created" value="true"></button> -->
+            <a href="/login" class="btn btn-primary">Логин</a>
+            <a href="/create" class="btn btn-primary">Создать задачу</a>
+            <!-- <button type="submit" class="btn btn-secondary mb-2 " name="created" value="true"><a href="/create"></a></button> -->
           <hr>
           <p>Соритровка по:<span class="glyphicon glyphicon-align-left" aria-hidden="true"></span></p>
-          <form action="">
+          
             <div class="btn-group" role="group" aria-label="Basic example">
                 <div class="row container">
                     <div class="form-check col">
@@ -66,22 +49,25 @@
             <hr>
             <div class="row container-fluid tasks">
                 {% for task in tasks %}
-                <div class="card col-4" style="width: 18rem;">
+                <div class="card col-12" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Пользователь: {{task.name}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{task.email}}</h6>
                         <p class="card-text">{{task.description}}</p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <a href="#" class="card-link">Редактировать</a>
                     </div>
                 </div>
+                {% else %}
+                <h1>Список задач пуст</h1>
                 {% endfor %}
             </div>
             <hr>
             <div class="btn-group mr-2" role="group" aria-label="First group">
-                {% for i in range(1,numPages) %}
-                    <button type="button" class="btn btn-secondary">{{ i }}</button>
-                {% endfor %} 
+                {% if numPages > 1 %}
+                    {% for i in range(1,numPages) %}
+                        <button type="submit" name="page" value="{{ i }}" class="btn btn-secondary">{{ i }}</a></button>
+                    {% endfor %} 
+                {% endif %}
             </div>
             </div>
         </form>

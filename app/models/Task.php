@@ -13,6 +13,7 @@ class Task
 {
     /**
      * @ORM\Column(name="id",type="integer")
+     * @ORM\GeneratedValue
      * @ORM\Id
      */
     public $id;
@@ -32,11 +33,11 @@ class Task
     /**
      * @ORM\Column(type="string")
      */
-    public $done;
+    public $done = "N";
     /**
      * @ORM\Column(type="string")
      */
-    public $edited;
+    public $edited = "N";
     /**
      * @ORM\Column(type="string")
      */
